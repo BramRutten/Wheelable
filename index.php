@@ -1,9 +1,33 @@
 <?php
+require_once('classes/user.class.php');
+session_start();
 
-if (isset($_POST)) {
-    //WHATEVERTHEFUCKMOETGEBEUREN
+if(isset($_SESSION['hash'])){
+    header('Location: base.php');
 }else{
-    $alert = "Please fill in the fields.";
+
+    if (isset($_POST)) {
+        
+        $u = new user();
+
+        try{
+
+            $u->email = $_POST['email'];
+            $u->password = $_POST['password'];
+            $u->login();   
+
+        } catch (Exception $e){
+
+            $alert = $e->getMessage();
+        }
+
+
+    }else{
+
+        $alert = "Please fill in the fields.";
+
+    }
+
 }
 
 
@@ -15,7 +39,7 @@ if (isset($_POST)) {
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/login.css">
-	<link rel="stylesheet" type="text/css" href="theme.css">
+	
 </head>
 <body>
 
@@ -26,7 +50,7 @@ if (isset($_POST)) {
             <div class="form-box">
                 <form action="" method="POST">
                     <input class="high-border" name="email" type="text" placeholder="email">
-                    <input class="low-border" type="password" placeholder="password">
+                    <input class="low-border" type="password" name="password" placeholder="password">
                     <button class="btn btn-info btn-block login" type="submit">Login</button>
                 </form> 
 
@@ -35,8 +59,7 @@ if (isset($_POST)) {
                
             </div>
         </div>
-
-<script src="js/login.js"></script>        
+       
         
 </div>
 	

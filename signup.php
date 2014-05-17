@@ -1,7 +1,24 @@
 <?php
+require_once('classes/user.class.php');
 
-if (isset($_POST)) {
-    //Save to db
+
+
+if (!empty($_POST)) {
+    if ($_POST['password'] == $_POST['repeated_password']) {
+
+       
+        $u = new user();
+
+        $u->name = $_POST['name'];
+        $u->email = $_POST['email'];
+        $u->password = $_POST['password'];
+        $u->type = $_POST['type'];
+        $u->signup();
+                
+
+    }else{
+        $alert ="Passwords didn't match.";
+    }    
 }else{
     $alert = "Please fill in the fields.";
 }
@@ -14,32 +31,33 @@ if (isset($_POST)) {
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/login.css">
-	<link rel="stylesheet" type="text/css" href="theme.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body>
 
 <div class="container">
-	<div class="login-container">
+    <div class="login-container">
         <div id="output"></div>
             <div class="avatar"></div>
                 <form action="" method="POST">
                     <div class="form-box">
-                        <input class="high-border" name="user" type="text" placeholder="username">
+                        <input class="high-border" name="name" type="text" placeholder="username">
                         <input class="low-border" name="email" type="text" placeholder="email">
                     </div>
                 </br>
                     <div class="form-box">
-                        <input class="high-border" type="password" placeholder="password">
-                        <input class="low-border" type="password" placeholder="repeat password">
+                        <input class="high-border" type="password" name="password" placeholder="password">
+                        <input class="low-border" type="password" name="repeated_password" placeholder="repeat password">
                     </div>
                         </br>
                         <div class="form-box">
-                            <div class="btn-group little-text">
-                                <button type="button" class="btn btn-default">wheelchair user</button>
-                                <button type="button" class="btn btn-default">companion</button>
+                            <div class="btn-group little-text" data-input="type" data-toggle="buttons-radio">
+                                <button type="button" value="0" class="typeBtn btn btn-default activeClass" data-input="button">wheelchair user</button>
+                                <button type="button" value="1" class="typeBtn btn btn-default" data-input="button">companion</button>
                             </div>
+                            <input type="hidden" name="type" class="userType" value="0" />
                         </dive>
-                        <button class="btn btn-info btn-block login" type="submit">Sign up</button>
+                        <button class="btn btn-info btn-block login"  type="submit">Sign up</button>
                     </div>
                     
                 </form> 
@@ -49,7 +67,8 @@ if (isset($_POST)) {
         </div>
     </div>
 </div>
-<script src="js/login.js"></script>        
+
+<script src="js/signup.js"></script>       
         
 
 	

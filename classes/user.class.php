@@ -1,5 +1,5 @@
 <?php
-
+/*
 class user {
 
 	private $username;
@@ -38,15 +38,10 @@ $user = new User();
 $user->isLoggedIn();
 
 $user->username;
-
-?>
-
-class user{
-	
-}
+*/
 
 
-<?php
+include_once("db.class.php");
 
 class user{
 
@@ -63,49 +58,52 @@ class user{
 	private $range;
 
 	//Getters
-	public function __GET($property, $value){
+	public function __set($property, $value){
 		
 		switch ($property) {
 			case 'name':
-				$this->$name = $value;
+				$this->name = $value;
 				break;
 
-		switch ($property) {
 			case 'type':
-				$this->$type = $value;
+				$this->type = $value;
 				break;
 			
 			case 'email':
-				$this->$email = $value;
+				$this->email = $value;
 				break;
 
 			case 'password':
 				$salt = "(TH!5-8e-Th3-54lT)";
-				$this->$password = sha1($value.$salt);
+				$this->password = sha1($value.$salt);
 				break;
 
 			case 'age':
-				$this->$age = $value;
+				$this->age = $value;
 				break;
 
 			case 'sex':
-				$this->$sex = $value;
+				$this->sex = $value;
 				break;
 
 			case 'image':
-				$this->$image = $value;
+				$this->image = $value;
 				break;
 
 			case 'longitude':
-				$this->$longitude = $value;
+				$this->longitude = $value;
 				break;
 
 			case 'latitude':
-				$this->$longitude = $value;
+				$this->longitude = $value;
 				break;
 
 			case 'range':
-				$this->$range = $value;
+				$this->range = $value;
+				break;
+
+			case 'hash':
+				$this->hash = $value;
 				break;
 		}
 
@@ -113,68 +111,108 @@ class user{
 
 
 	//Setters
-	public function __SET($property){
+	public function __get($property){
 		switch ($property) {
 			case 'name':
-				return $this->$name;
+				return $this->name;
 				break;
 			
 			case 'type':
-				return $this->$type;
+				return $this->type;
 				break;
 
 			case 'email':
-				return $this->$email;
+				return $this->email;
 				break;
 
 			case 'password':
-				return $this->$password;
+				return $this->password;
 				break;
 
 			case 'age':
-				return $this->$age;
+				return $this->age;
 				break;
 
 			case 'sex':
-				return $this->$sex;
+				return $this->sex;
 				break;
 
 			case 'image':
-				return $this->$image;
+				return $this->image;
 				break;
 
 			case 'longitude':
-				return $this->$longitude;
+				return $this->longitude;
 				break;
 
 			case 'latitude':
-				return $this->$latitude;
+				return $this->latitude;
 				break;
 
 			case 'range':
-				return $this->$range;
+				return $this->range;
 				break;
 
+			case 'hash':
+				return $this->hash;
 
 		}
 
 	}
 
 
+	public function signup(){
+
+		$db = new Db();
+		$sql = "INSERT INTO tbl_user (name, email, password, type) 
+			VALUES ('".$db->conn->real_escape_string($this->name)."',
+					'".$db->conn->real_escape_string($this->email)."',
+					'".$db->conn->real_escape_string($this->password)."',
+					'".$db->conn->real_escape_string($this->type)."');";
+
+		$db->conn->query($sql);
+		header ('Location: index.php');
+	}
 
 
-}
+	public function login(){
 
-//getters
+		$db = new Db();
+		$salt = "(TH!5-8e-Th3-54lT)";
+		$sql = "SELECT * from tbl_user WHERE email = '".$db->conn->real_escape_string($this->email)."' AND password = '".$db->conn->real_escape_string(md5($this->password.$salt))."';";
 
-//setters
 
-//functie registreren
+		$result = $db->conn->query($sql);
+		$row = $result->fetch_assoc();
 
-//functie inloggen -> sessie:user_id+salt(sha1)
+		if($result->num_rows ==1){
+
+			session_destroy();
+			session_start();
+
+			$hash = sha1($row->user_id.$salt);
+
+			
+			$sql="UPDATE tbl_user SET 'hash'=$hash WHERE 'email'=$this->email;";
+
+			$_SESSION['hash'] = $hash;
+
+			$this->fillResults($row->user_id);
+
+			header('Location: base.php');
+
+		}else{
+			throw new Exception("Email and/or password incorrect.");	
+		}
+	}
 
 //CheckType
 
 //ShowMap
 
+
+
+
+}
 ?>
+
