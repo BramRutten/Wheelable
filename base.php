@@ -35,6 +35,9 @@ marker.setMap(map);
 
 <body>
 <div id="googleMap"></div>
+<form action="destroy.php" method="post">
+	 <button class="btn btn-info btn-block" type="submit">Logout</button>
+</form>
 
 </body>
 </html>

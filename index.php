@@ -6,15 +6,13 @@ if(isset($_SESSION['hash'])){
     header('Location: base.php');
 }else{
 
-    if (isset($_POST)) {
+    if (isset($_POST['email'])) {
         
         $u = new user();
 
         try{
 
-            $u->email = $_POST['email'];
-            $u->password = $_POST['password'];
-            $u->login();   
+            $u->login($_POST['email'], $_POST['password']);   
 
         } catch (Exception $e){
 

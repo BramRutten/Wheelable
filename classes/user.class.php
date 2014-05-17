@@ -175,35 +175,59 @@ class user{
 	}
 
 
-	public function login(){
+	public function login($email,$password){
 
 		$db = new Db();
 		$salt = "(TH!5-8e-Th3-54lT)";
-		$sql = "SELECT * from tbl_user WHERE email = '".$db->conn->real_escape_string($this->email)."' AND password = '".$db->conn->real_escape_string(md5($this->password.$salt))."';";
+		$sql = 'SELECT * from tbl_user WHERE email = "'.$db->conn->real_escape_string($email).'" AND password = "'.$db->conn->real_escape_string(sha1($password.$salt)).'";';
 
+		
 
 		$result = $db->conn->query($sql);
 		$row = $result->fetch_assoc();
 
 		if($result->num_rows ==1){
 
-			session_destroy();
-			session_start();
+		
 
-			$hash = sha1($row->user_id.$salt);
+			$hash = sha1($row['user_id'].$salt);
 
 			
-			$sql="UPDATE tbl_user SET 'hash'=$hash WHERE 'email'=$this->email;";
+			$sql="UPDATE tbl_user SET 'hash'=$hash WHERE 'email'=".$db->conn->real_escape_string($email).";";
+
+			$db->conn->query($sql);
 
 			$_SESSION['hash'] = $hash;
 
-			$this->fillResults($row->user_id);
+			$this->fillUser($row['user_id']);
 
 			header('Location: base.php');
 
 		}else{
 			throw new Exception("Email and/or password incorrect.");	
 		}
+	}
+
+	function fillUser($id){
+		$db = new Db();
+		
+		$salt = "(TH!5-8e-Th3-54lT)";
+		$sql = 'SELECT * from tbl_user WHERE user_id = "'.$db->conn->real_escape_string($id).'";';
+
+		$result = $db->conn->query($sql);
+		$row = $result->fetch_assoc();
+
+		$this->user_id = $row['user_id'];
+		$this->name = $row['name'];
+		$this->type = $row['type'];
+		$this->email = $row['email'];
+		$this->password = $row['password'];
+		$this->age = $row['age'];
+		$this->sex = $row['sex'];
+		$this->image = $row['image'];
+		$this->longitude = $row['longitude'];
+		$this->range = $row['range'];
+		$this->hash = $row['hash'];
 	}
 
 //CheckType
