@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.4.1
+-- version 4.1.12
 -- http://www.phpmyadmin.net
 --
 -- Machine: 127.0.0.1
--- Genereertijd: 17 mei 2014 om 19:58
--- Serverversie: 5.5.32
--- PHP-versie: 5.4.19
+-- Gegenereerd op: 18 mei 2014 om 15:29
+-- Serverversie: 5.6.16
+-- PHP-versie: 5.5.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Databank: `wheelable`
 --
-CREATE DATABASE IF NOT EXISTS `wheelable` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `wheelable`;
 
 -- --------------------------------------------------------
 
@@ -70,16 +68,18 @@ CREATE TABLE IF NOT EXISTS `tbl_user` (
   `longitude` float NOT NULL,
   `latitude` float NOT NULL,
   `range` int(11) NOT NULL,
-  `hash` int(11) NOT NULL,
+  `hash` text NOT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
--- Gegevens worden uitgevoerd voor tabel `tbl_user`
+-- Gegevens worden geëxporteerd voor tabel `tbl_user`
 --
 
 INSERT INTO `tbl_user` (`user_id`, `name`, `type`, `email`, `password`, `age`, `sex`, `image`, `longitude`, `latitude`, `range`, `hash`) VALUES
-(16, 'Bram', '0', 'rutten_bram@hotmail.com', '3bbe3ace361712f50c4230a118126d2b13d9bcff', 0, 0, '', 0, 0, 0, 0);
+(16, 'Bram', '0', 'rutten_bram@hotmail.com', '3bbe3ace361712f50c4230a118126d2b13d9bcff', 0, 0, '', 0, 0, 0, '0'),
+(18, 'Yannick', '1', 'coolboy@sexy.beast', 'db0629a49c27a971d185ff58bf3b6b5f2b40a925', 0, 0, '', 0, 0, 0, '360d63502843e41c52528e2fbb7d0c3249d26904'),
+(19, 'Franky', '0', 'franky@sexy.beast', 'db0629a49c27a971d185ff58bf3b6b5f2b40a925', 0, 0, '', 0, 0, 0, '11fcc426ff44f814e0f13abdc101dcd2c7f4f82e');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
