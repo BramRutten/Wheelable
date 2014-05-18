@@ -1,44 +1,5 @@
 <?php
-/*
-class user {
 
-	private $username;
-	private $type;
-
-	function login(){
-		// Als juist
-		$_SESSION['hash'] = sha1(userid.$salt);
-		$this->fillResults($id);
-		//Ook in de db steken natuurlijk
-	}
-
-	function fillUser($id){
-		// Db connectie zetten
-		// User zoeken op basis van $id
-
-		$this->type = $query['type'];
-	}
-
-	function getType(){
-		return $this->type;
-	}
-
-	function isLoggedIn(){
-		// Is er een sessie
-		// IS er een hash gevonden?
-		//filluser
-		return true;
-
-	}
-
-}
-
-$user = new User();
-
-$user->isLoggedIn();
-
-$user->username;
-*/
 
 
 include_once("db.class.php");
@@ -61,6 +22,11 @@ class user{
 	public function __set($property, $value){
 		
 		switch ($property) {
+
+			case 'user_id':
+				$this->user_id = $value;
+				break;
+
 			case 'name':
 				$this->name = $value;
 				break;
@@ -113,6 +79,11 @@ class user{
 	//Setters
 	public function __get($property){
 		switch ($property) {
+
+			case 'user_id':
+				return $this->user_id;
+				break;
+
 			case 'name':
 				return $this->name;
 				break;
@@ -161,7 +132,7 @@ class user{
 	}
 
 
-	public function signup(){
+	function signup(){
 
 		$db = new Db();
 		$sql = "INSERT INTO tbl_user (name, email, password, type) 
@@ -175,7 +146,7 @@ class user{
 	}
 
 
-	public function login($email,$password){
+	function login($email,$password){
 
 		$db = new Db();
 		$salt = "(TH!5-8e-Th3-54lT)";
@@ -188,12 +159,9 @@ class user{
 
 		if($result->num_rows ==1){
 
-		
-
 			$hash = sha1($row['user_id'].$salt);
 
-			
-			$sql="UPDATE tbl_user SET 'hash'=$hash WHERE 'email'=".$db->conn->real_escape_string($email).";";
+			$sql='UPDATE tbl_user SET hash="'.$hash.'" WHERE email ="'.$db->conn->real_escape_string($email).'";';
 
 			$db->conn->query($sql);
 
@@ -221,7 +189,6 @@ class user{
 		$this->name = $row['name'];
 		$this->type = $row['type'];
 		$this->email = $row['email'];
-		$this->password = $row['password'];
 		$this->age = $row['age'];
 		$this->sex = $row['sex'];
 		$this->image = $row['image'];
@@ -230,6 +197,32 @@ class user{
 		$this->hash = $row['hash'];
 	}
 
+ 
+ 	function isLoggedIn(){
+		
+		if($_SESSION['hash']){
+
+			$db = new Db();
+		
+			$sql = 'SELECT * from tbl_user WHERE hash = "'.$_SESSION['hash'].'";';
+
+			$result = $db->conn->query($sql);
+			$row = $result->fetch_assoc();
+
+			if($result->num_rows ==1){
+
+
+				$this->fillUser($row['user_id']);
+
+			}else{
+				header ('Location: destroy.php');
+			}
+			
+
+		}else{
+			header ('Location: destroy.php');
+		}
+	}
 //CheckType
 
 //ShowMap

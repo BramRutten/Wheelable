@@ -47,7 +47,7 @@ if(isset($_SESSION['hash'])){
             <div class="avatar"></div>
             <div class="form-box">
                 <form action="" method="POST">
-                    <input class="high-border" name="email" type="text" placeholder="email">
+                    <input class="high-border lowType" name="email" type="text" placeholder="email">
                     <input class="low-border" type="password" name="password" placeholder="password">
                     <button class="btn btn-info btn-block login" type="submit">Login</button>
                 </form> 

@@ -1,8 +1,10 @@
 <?php
 require_once('classes/user.class.php');
+session_start();
 
-
-
+if(isset($_SESSION['hash'])){
+    header('Location: base.php');
+}else{
 if (!empty($_POST)) {
     if ($_POST['password'] == $_POST['repeated_password']) {
 
@@ -22,7 +24,7 @@ if (!empty($_POST)) {
 }else{
     $alert = "Please fill in the fields.";
 }
-
+}
 ?><!doctype html>
 <html lang="en">
 <head>
@@ -42,7 +44,7 @@ if (!empty($_POST)) {
                 <form action="" method="POST">
                     <div class="form-box">
                         <input class="high-border" name="name" type="text" placeholder="username">
-                        <input class="low-border" name="email" type="text" placeholder="email">
+                        <input class="low-border lowType" name="email" type="text" placeholder="email">
                     </div>
                 </br>
                     <div class="form-box">

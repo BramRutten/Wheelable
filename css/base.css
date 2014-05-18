@@ -1,3 +1,42 @@
 #googleMap{
-	width:800px;height:800px;
+  height: 100%;
+  position: absolute; 
+  top: 0; 
+  bottom: -200px; 
+  left: 0; 
+  right: 0; 
+  z-index: 0;
+}
+
+
+
+#UI {
+z-index: 100;
+position: relative;
+width:100%;
+
+
+}
+
+.logoutTopRight{
+	position:fixed;
+
+	right:5px;
+	margin-top:7px;
+}
+
+.topBar{
+background: #669793; /* Old browsers */
+background: -moz-linear-gradient(left,  #669793 0%, #86bcaa 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right top, color-stop(0%,#669793), color-stop(100%,#86bcaa)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(left,  #669793 0%,#86bcaa 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(left,  #669793 0%,#86bcaa 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(left,  #669793 0%,#86bcaa 100%); /* IE10+ */
+background: linear-gradient(to right,  #669793 0%,#86bcaa 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#669793', endColorstr='#86bcaa',GradientType=1 ); /* IE6-9 */
+
+margin: 0 auto;
+height: 60px;
+width:100%;
+
 }
